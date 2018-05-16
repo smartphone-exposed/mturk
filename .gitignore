@@ -1,4 +1,7 @@
+/node_modules
 /coverage
 /dist
 .*.sw*
 *.pyc
+
+/config.yaml
