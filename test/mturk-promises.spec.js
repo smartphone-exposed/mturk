@@ -4,19 +4,20 @@ const yaml = require('js-yaml')
 const AWS = require('aws-sdk')
 const mturkPromises = require('../mturk-promises')
 
-const endpoint = 'https://mturk-requester-sandbox.us-east-1.amazonaws.com'
-
 var mturk
+var config
 
 beforeAll(() => {
   AWS.config.setPromisesDependency(null)
-  const config = yaml.safeLoad(fs.readFileSync(path.join(__dirname, '..', '/config.yaml')))
-  AWS.config.update(config)
+  config = yaml.safeLoad(fs.readFileSync(path.join(__dirname, '..', '/config.yaml')))
+  AWS.config.update(config.aws)
 })
 
 beforeEach(() => {
+  const mturkConfig = config.mturk
+  const mturkEndpoint = mturkConfig.use_sandbox ? mturkConfig.sandbox_endpoint : mturkConfig.endpoint
   mturk = new AWS.MTurk({
-    endpoint: endpoint
+    endpoint: mturkEndpoint
   })
 })
 
