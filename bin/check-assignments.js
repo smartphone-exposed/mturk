@@ -20,7 +20,7 @@ mturkPromises(mturk)
 const checker = new AssignmentChecker(mturk, config)
 
 function checkAssignments () {
-  console.log(`Running checker ...`)
+  // console.log(`Running checker ...`)
   checker.run()
 }
 

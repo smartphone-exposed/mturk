@@ -257,7 +257,7 @@ class AssignmentChecker {
     await this.setupMongoClient(config.mongodb)
     const { mongoClient, db } = this
     const mturk = this.mturk
-    console.log(`Connected to mongodb`)
+    // console.log(`Connected to mongodb`)
     // Look up pending assignments
     const hits = await mturk.listHITs()
     const hitIds = hits.HITs.map(e => e.HITId)
