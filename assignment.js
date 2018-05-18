@@ -13,7 +13,16 @@ class Assignment {
   }
 
   get experimentIDs() {
-    return Array.from(new Set(this.Answer.experimentID.split(',')))
+    const experimentIDs = []
+    if (this.Answer.experimentID.length > 0) {
+      experimentIDs.push(...Array.from(new Set(this.Answer.experimentID.split(','))))
+    }
+    if (this.Answer.fakeExperimentID.length > 0) {
+      // We have an experiment left over here. Add that too
+      const unparsedExperiments = this.Answer.fakeExperimentID.split(',').filter(e => e.length !== 0)
+      experimentIDs.push(...unparsedExperiments)
+    }
+    return experimentIDs
   }
 }
 
