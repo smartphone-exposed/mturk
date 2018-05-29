@@ -247,7 +247,7 @@ class AssignmentChecker {
         WorkerId: assignment.WorkerId,
         Reason: `Received ${bonusExpts} valid, bonus experiments`,
         UniqueRequestToken: bonusUuid,
-        BonusAmount: `${bonusExpts * 0.5}`
+        BonusAmount: `${bonusExpts * 0.15}`
       })
     }
     console.log(`Approved assignment ${assignment.AssignmentId}: ${feedback[0]}`)
