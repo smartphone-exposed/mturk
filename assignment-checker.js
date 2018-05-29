@@ -238,16 +238,18 @@ class AssignmentChecker {
     })
     const numValidExperiments = Object.values(results).filter(e => e.error === undefined).length
     var bonusExpts = (numValidExperiments - 1)
-    bonusExpts = bonusExpts > 2 ? 2 : bonusExpts
-    // Send bonus
-    const bonusUuid = uuidv4()
-    await this.mturk.sendBonus({
-      AssignmentId: assignment.AssignmentId,
-      WorkerId: assignment.WorkerId,
-      Reason: `Received ${bonusExpts} valid, bonus experiments`,
-      UniqueRequestToken: bonusUuid,
-      BonusAmount: `${bonusExpts * 0.5}`
-    })
+    if (bonusExpts !== 0) {
+      bonusExpts = bonusExpts > 2 ? 2 : bonusExpts
+      // Send bonus
+      const bonusUuid = uuidv4()
+      await this.mturk.sendBonus({
+        AssignmentId: assignment.AssignmentId,
+        WorkerId: assignment.WorkerId,
+        Reason: `Received ${bonusExpts} valid, bonus experiments`,
+        UniqueRequestToken: bonusUuid,
+        BonusAmount: `${bonusExpts * 0.5}`
+      })
+    }
     console.log(`Approved assignment ${assignment.AssignmentId}: ${feedback[0]}`)
   }
 
