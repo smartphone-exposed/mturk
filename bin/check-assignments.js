@@ -25,4 +25,4 @@ function checkAssignments () {
 }
 
 checkAssignments()
-setInterval(checkAssignments, 5000)
+setInterval(checkAssignments, 1 * 60 * 60 * 1000)
