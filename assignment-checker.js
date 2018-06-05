@@ -49,6 +49,9 @@ class AssignmentChecker {
       console.log(`keys=${JSON.stringify(Object.keys(result))}`)
       return []
     }
+    if (result.Assignments.length === 0) {
+      console.log(`HIT=${hitId} assignments=0`)
+    }
     const promises = result.Assignments.map(async (assignment) => {
       const json = await self.xmlToJson(assignment.Answer)
       assignment.Answer = json
