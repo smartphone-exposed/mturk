@@ -30,6 +30,9 @@ class AssignmentChecker {
     if (!config) {
       config = this.config.mongodb
     }
+    if (this.mongoClient) {
+      return
+    }
     const mongoClient = await MongoClient.connect(config.url)
     const db = await mongoClient.db(config.database)
     this.mongoClient = mongoClient
