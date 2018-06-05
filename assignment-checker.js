@@ -269,6 +269,7 @@ class AssignmentChecker {
     // console.log(`hitIds=${JSON.stringify(hitIds)}`)
 
     const assignments = await self.getAllAssignmentsForHITs(hitIds)
+    console.log(`Got ${assignments.length} assignments`)
 
     const promises = assignments.map(async (assignment) => {
       try {
