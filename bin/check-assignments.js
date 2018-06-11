@@ -12,6 +12,7 @@ AWS.config.update(config.aws)
 
 const mturkConfig = config.mturk
 const mturkEndpoint = mturkConfig.use_sandbox ? mturkConfig.sandbox_endpoint : mturkConfig.endpoint
+console.log(`Using endpoint ${mturkEndpoint}`)
 const mturk = new AWS.MTurk({
   endpoint: mturkEndpoint
 })
