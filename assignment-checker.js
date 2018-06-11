@@ -160,6 +160,7 @@ class AssignmentChecker {
         }
       }
 
+      console.log(`Everything checked out. Updating each experiment in mongoDB with mturk field`)
       // Everything checked out. This experiment should be accepted
       // TODO: Update mongodb marking this experiment as accepted
       const mturkData = JSON.parse(JSON.stringify(assignment))
@@ -245,16 +246,30 @@ class AssignmentChecker {
     const numValidExperiments = Object.values(results).filter(e => e.error === undefined).length
     var bonusExpts = (numValidExperiments - 1)
     if (bonusExpts !== 0) {
-      bonusExpts = bonusExpts > 2 ? 2 : bonusExpts
+      bonusExpts = bonusExpts > this.config.bonus.max_bonus_tasks ? this.config.bonus.max_tasks : bonusExpts
       // Send bonus
       const bonusUuid = uuidv4()
-      await this.mturk.sendBonus({
+      const bonusObj = {
         AssignmentId: assignment.AssignmentId,
         WorkerId: assignment.WorkerId,
         Reason: `Received ${bonusExpts} valid, bonus experiments`,
         UniqueRequestToken: bonusUuid,
-        BonusAmount: `${bonusExpts * 0.15}`
+        BonusAmount: `${bonusExpts * this.config.bonus.value}`
+      }
+      await this.mturk.sendBonus(bonusObj)
+
+      const collection = await this.db.collection('results')
+      const promises = assignment.experimentIDs.map(async (experimentID) => {
+        await collection.updateOne({
+          type: 'expt-data',
+          experimentID: experimentID,
+        }, {
+          $set: {
+            'mturk.bonus': bonusObj
+          }
+        })
       })
+      await Promise.all(promises)
     }
     console.log(`Approved assignment ${assignment.AssignmentId}: ${feedback[0]}`)
   }
