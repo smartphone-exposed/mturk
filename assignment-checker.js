@@ -66,7 +66,7 @@ class AssignmentChecker {
       return await self.getAssignmentsForHIT(hitId)
     })
     const assignmentArrays = await Promise.all(promises)
-    const rawAssignments = [].concat.apply([], ...assignmentArrays)
+    const rawAssignments = [].concat.apply(...assignmentArrays)
     const assignments = []
     rawAssignments.forEach((rawAssignment) => {
       // Since users can submit multiple experiment IDs, split experimentID by comma
